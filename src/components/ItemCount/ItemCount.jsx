@@ -1,23 +1,31 @@
 import { useState } from "react"
 import './ItemCount.css'
 
-const ItemCount = ({productos}) => {
+const ItemCount = ({initial, stock, onAdd}) => {
 
-    const [count, setCount] = useState(0);
+    const [count, setCount] = useState(initial);
 
-    const agregarItem = () => count >= 0  ? setCount(count + 1) : null;
-    const removerItem = () => count > 0 ? setCount(count - 1) : null;
+    function sumarItem(){
 
+        if(count < stock){
+            setCount(count + 1)
+        }
+    }
+    function restarItem (){
+        if (count > 1){
+            setCount(count - 1)
+        }
+    }
+
+    const agregar = () => {
+        onAdd(count)
+    }
     return (
         <>
-            <div className="countContainer">
-                <button className="btn btn-primary" onClick={agregarItem}>+</button>
-                <h3>{count}</h3>
-                <button className="btn btn-primary"  onClick={removerItem}>-</button>
-            </div>
-            <div className="agregarCarrito">
-                <p>Agregar a carrito</p>
-            </div>
+            <div>{count}</div>
+            <button onClick={sumarItem}>Sumar Producto</button>
+            <button onClick={restarItem}>Remover Producto</button>
+            <button onClick={()=>onAdd(count)}>Agregar</button>
         </>
     )
 }
